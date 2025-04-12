@@ -9,15 +9,9 @@ COPY . .
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN addgroup --gid ${GID} --system laravel
-RUN adduser --home /home/laravel --gid ${GID} --system --shell /bin/bash --uid ${UID} laravel
-
-USER laravel
-
 # install utils and nvm to node
 RUN apt-get update -y \
-    && apt-get install -y git curl libpq-dev libpng-dev libonig-dev libxml2-dev zip unzip \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+    && apt-get install -y git curl libpq-dev libpng-dev libonig-dev libxml2-dev zip unzip
 
 # install latest composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -30,6 +24,13 @@ ENV PATH="~/.composer/vendor/bin:$PATH"
 
 RUN docker-php-ext-install pdo pdo_pgsql mbstring gd
 
-RUN source ~/.bashrc \
+RUN addgroup --gid ${GID} --system laravel
+RUN adduser --home /home/laravel --gid ${GID} --system --shell /bin/bash --uid ${UID} laravel
+
+USER laravel
+
+RUN touch ~/.bashrc \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash \
+    && source ~/.bashrc \
     && nvm install
 
