@@ -70,39 +70,43 @@ export default function Home() {
                 </div>
             </header>
 
-            <main className="px-[48px]">
-                <section id="start" className="flex flex-col items-center">
-                    <h1 className="text-center">Transforme sua jornada fitness</h1>
+            <section id="start" className="flex flex-col items-center bg-radial-[ellipse_farthest-corner_at_top] from-[#080F17] from-50% to-[#A2D260] to-250% pb-[20vw]">
+                <h1 className="text-center mb-5">
+                    Transforme sua jornada fitness
+                </h1>
 
-                    <p className="text-center max-w-[75%]">
-                        Descubra nossos planos personalizados, elaborados especialmente{" "}
-                        para se adequar ao seu estilo de vida. Esses planos são projetados{" "}
-                        não apenas para atender às suas necessidades, mas também para te{" "}
-                        capacitar em sua jornada rumo à realização de seus objetivos com{" "}
-                        facilidade e eficiência.
-                    </p>
+                <p className="text-center max-w-[75%]">
+                    Descubra nossos planos personalizados, elaborados especialmente{" "}
+                    para se adequar ao seu estilo de vida. Esses planos são projetados{" "}
+                    não apenas para atender às suas necessidades, mas também para te{" "}
+                    capacitar em sua jornada rumo à realização de seus objetivos com{" "}
+                    facilidade e eficiência.
+                </p>
 
-                    <article className="flex items-center gap-x-3">
-                        <Button
-                            text="Teste grátis"
-                            href="free-trial"
-                            type="primary"
-                        />
-                        <Button
-                            text="Fale conosco"
-                            href="contact-us"
-                            type="secondary"
-                        />
-                    </article>
-
-                    <Image
-                        src="/ui/chart.svg"
-                        alt="Movefit dashboard charts"
-                        width={1024}
-                        height={670}
+                <article className="flex items-center gap-x-3 my-20">
+                    <Button
+                        text="Teste grátis"
+                        href="free-trial"
+                        type="primary"
                     />
-                </section>
+                    <Button
+                        text="Fale conosco"
+                        href="contact-us"
+                        type="secondary"
+                    />
+                </article>
+            </section>
 
+            <div className="flex justify-center mt-[-20vw]" >
+                <Image
+                    src="/ui/chart.svg"
+                    alt="Movefit dashboard charts"
+                    width={1024}
+                    height={670}
+                />
+            </div>
+
+            <main className="px-[48px] relative">
                 <section id="benefits">
                     <h2>Benefícios</h2>
 
@@ -143,7 +147,7 @@ export default function Home() {
                 <section id="testimonials" className="mt-50">
                     <h2>Depoimentos</h2>
 
-                    <div className="embla overflow-hidden" ref={carouselRef}>
+                    <div className="embla overflow-hidden pr-10 relative" ref={carouselRef}>
                         <div className="embla__container flex gap-x-3 select-none cursor-grab active:cursor-grabbing">
                             {Array(10).fill(1).map((_, idx) => (
                                 <TestimonialCard
@@ -158,33 +162,19 @@ export default function Home() {
                                 />
                             ))}
                         </div>
+
+                        <div className="absolute top-0 left-[-10px] h-full w-[30px] bg-[linear-gradient(90deg,_#080F17_0%,_transparent_95%)]">
+                        </div>
+                        <div className="absolute top-0 right-0 h-full w-[20px] bg-[linear-gradient(-90deg,_#080F17_0%,_transparent_95%)]">
+                        </div>
+
                     </div>
                 </section>
 
                 <section id="gallery" className="mt-50">
                     <h2>Galeria</h2>
 
-                        <section className="flex shrink gap-4">
-                            <GalleryPicture
-                                image={0}
-                                alt={"abc"}
-                            />
-                            <GalleryPicture
-                                image={1}
-                                alt={"abc"}
-                            />
-                        </section>
-
-                        <section className="flex shrink gap-4">
-                            <GalleryPicture
-                                image={2}
-                                alt={"abc"}
-                            />
-                            <GalleryPicture
-                                image={3}
-                                alt={"abc"}
-                            />
-                        </section>
+                    <GalleryPictures />
 
                     <article className="hidden flex flex-wrap gap-4">
                         {[
@@ -202,7 +192,7 @@ export default function Home() {
                     </article>
                 </section>
 
-                <footer className="flex justify-between">
+                <footer className="flex justify-between my-20">
                     <Link href="/">
                         <Image
                             src="/logo/logo.svg"
@@ -266,19 +256,42 @@ interface GalleryPictureProps {
     image: number;
 }
 
+function GalleryPictures() {
+    return (
+        <article className="flex flex-col items-center gap-4">
+            <section className="grid auto-cols md:grid-cols-[minmax(0,_840px)_minmax(0,_480px)] gap-4">
+                <GalleryPicture
+                    image={0}
+                    alt={"abc"}
+                />
+                <GalleryPicture
+                    image={1}
+                    alt={"abc"}
+                />
+            </section>
+            <section className="grid auto-cols md:grid-cols-[minmax(0,_480px)_minmax(0,_840px)] gap-4">
+                <GalleryPicture
+                    image={2}
+                    alt={"abc"}
+                />
+                <GalleryPicture
+                    image={3}
+                    alt={"abc"}
+                />
+            </section>
+        </article>
+    );
+}
+
 function GalleryPicture({ alt, image }: GalleryPictureProps) {
     return (
         <Image
             key={"gallery-"+image}
-            className="flex-1 grayscale max-h-[480] object-cover border-1 border-[#666] rounded-xl"
+            className="flex-1 grayscale h-[480px] object-cover border-1 border-[#666] rounded-xl"
             src={`/gallery/${image+1}.png`}
             alt={alt}
             width={840}
             height={480}
-            style={{
-                gridColumn: (image === 1 || image === 2) ?
-                    "span 1" : "span 2"
-            }}
         />
     );
 }
@@ -296,10 +309,8 @@ interface TestimonialCardProps {
 }
 
 function TestimonialCard({ person, starAmount, headline, text }: TestimonialCardProps) {
-    const cardWidthInPixels = 280;
-
     return (
-        <article className={`embla__slide min-w-3/4 sm:min-w-[${cardWidthInPixels}px] p-4 bg-[#121820] border-1 border-[#666] rounded-xl`}>
+        <article className={`embla__slide min-w-3/4 sm:min-w-[280px] p-4 bg-[#121820] border-1 border-[#666] rounded-xl`}>
             <header className="flex items-center gap-x-2">
                 <Image
                     className="rounded-full"
@@ -343,7 +354,7 @@ function TestimonialCard({ person, starAmount, headline, text }: TestimonialCard
     );
 }
 // TESTIOMONIAL CARD [END]
-//
+
 // BENEFIT CARD [START]
 interface BenefitCardProps {
     icon: "lock" | "info_circle" | "bar_chart";
