@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Button } from "@/components/Button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -212,43 +213,6 @@ export default function Home() {
         </>
     );
 }
-
-// BUTTON [START]
-interface ButtonProps {
-    text: string;
-    type: "primary" | "secondary";
-    href?: string;
-    onClick?: () => void;
-}
-
-function Button({ text, type, href, onClick }: ButtonProps) {
-    const classes = {
-        base: "py-2 px-4 rounded-lg",
-        primary: "text-[#000] bg-[#A7EE43]",
-        secondary: "text-[#FFF] bg-[#080F17] border-1 border-[#666]",
-    }
-
-    return (
-        href ? (
-            <Link
-                className={`${classes.base} ${classes[type]}`}
-                href={href}
-                onClick={onClick}
-            >
-                {text}
-            </Link>
-        ) : (
-            <button
-                type="button"
-                className={`${classes.base} ${classes[type]}`}
-                onClick={onClick}
-            >
-                {text}
-            </button>
-        )
-    );
-}
-// BUTTON [END]
 
 // GALLERY PHOTO [START]
 interface GalleryPictureProps {
