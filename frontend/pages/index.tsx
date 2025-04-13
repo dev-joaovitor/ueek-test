@@ -18,8 +18,11 @@ export default function Home() {
 
     return (
         <>
-            <header className="flex flex-wrap justify-between items-center py-3 px-[48] border-b-2 border-[#444]">
-                <Link href="/">
+            <header
+                className="flex flex-wrap justify-between items-center py-3 px-[48px] border-b-2 border-[#444]">
+
+
+                <Link className="block lg:hidden" href="/">
                     <Image
                         src="/logo/logo.svg"
                         alt="Movefit logo"
@@ -28,8 +31,18 @@ export default function Home() {
                     />
                 </Link>
 
-                <nav className="hidden md:block">
+                <nav className="hidden lg:block">
                     <menu className="flex items-center gap-x-10">    
+                        <li>
+                            <Link href="/">
+                                <Image
+                                    src="/logo/logo.svg"
+                                    alt="Movefit logo"
+                                    width={101}
+                                    height={32}
+                                />
+                            </Link>
+                        </li>
                         <li>
                             <a href="#start">Inicio</a>
                         </li>
@@ -45,19 +58,21 @@ export default function Home() {
                     </menu>
                 </nav>
 
-                <div className="flex gap-x-3">
+                <div className="flex items-center gap-x-3">
                     <Link href="login">
                         Login
                     </Link>
-                    <Link href="teste-gratis">
-                        Teste grátis
-                    </Link>
+                    <Button
+                        text="Teste grátis"
+                        href="teste-gratis"
+                        type="primary"
+                    />
                 </div>
             </header>
 
-            <main className="px-[48]">
+            <main className="px-[48px]">
                 <section id="start" className="flex flex-col items-center">
-                    <h1>Transforme sua jornada fitness</h1>
+                    <h1 className="text-center">Transforme sua jornada fitness</h1>
 
                     <p className="text-center max-w-[75%]">
                         Descubra nossos planos personalizados, elaborados especialmente{" "}
@@ -67,13 +82,17 @@ export default function Home() {
                         facilidade e eficiência.
                     </p>
 
-                    <article className="flex gap-x-3">
-                        <Link href="teste-gratis">
-                            Teste grátis
-                        </Link>
-                        <Link href="contact-us">
-                            Fale conosco
-                        </Link>
+                    <article className="flex items-center gap-x-3">
+                        <Button
+                            text="Teste grátis"
+                            href="free-trial"
+                            type="primary"
+                        />
+                        <Button
+                            text="Fale conosco"
+                            href="contact-us"
+                            type="secondary"
+                        />
                     </article>
 
                     <Image
@@ -193,15 +212,53 @@ export default function Home() {
                         />
                     </Link>
 
-                    <Link href="contact-us">
-                        Fale conosco
-                    </Link>
+                    <Button
+                        text="Fale conosco"
+                        href="contact-us"
+                        type="secondary"
+                    />
                 </footer>
             </main>
         </>
     );
 }
 
+// BUTTON [START]
+interface ButtonProps {
+    text: string;
+    type: "primary" | "secondary";
+    href?: string;
+    onClick?: () => void;
+}
+
+function Button({ text, type, href, onClick }: ButtonProps) {
+    const classes = {
+        base: "py-2 px-4 rounded-lg",
+        primary: "text-[#000] bg-[#A7EE43]",
+        secondary: "text-[#FFF] bg-[#080F17] border-1 border-[#666]",
+    }
+
+    return (
+        href ? (
+            <Link
+                className={`${classes.base} ${classes[type]}`}
+                href={href}
+                onClick={onClick}
+            >
+                {text}
+            </Link>
+        ) : (
+            <button
+                type="button"
+                className={`${classes.base} ${classes[type]}`}
+                onClick={onClick}
+            >
+                {text}
+            </button>
+        )
+    );
+}
+// BUTTON [END]
 
 // GALLERY PHOTO [START]
 interface GalleryPictureProps {
@@ -239,8 +296,10 @@ interface TestimonialCardProps {
 }
 
 function TestimonialCard({ person, starAmount, headline, text }: TestimonialCardProps) {
+    const cardWidthInPixels = 280;
+
     return (
-        <article className="embla__slide min-w-3/4 sm:min-w-[280] p-4 bg-[#121820] border-1 border-[#666] rounded-xl">
+        <article className={`embla__slide min-w-3/4 sm:min-w-[${cardWidthInPixels}px] p-4 bg-[#121820] border-1 border-[#666] rounded-xl`}>
             <header className="flex items-center gap-x-2">
                 <Image
                     className="rounded-full"
