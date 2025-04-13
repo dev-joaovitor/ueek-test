@@ -1,0 +1,7 @@
+.__table-container {
+    overflow: auto;
+}
+
+th, td {
+    padding: 8px;
+}

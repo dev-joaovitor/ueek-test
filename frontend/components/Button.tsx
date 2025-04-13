@@ -8,13 +8,12 @@ interface ButtonProps {
 }
 
 const classes = {
-    base: "py-2 px-4 rounded-lg",
+    base: "text-center py-2 px-4 rounded-lg",
     primary: "text-[#000] bg-[#A7EE43]",
     secondary: "text-[#FFF] bg-[#080F17] border-1 border-[#666]",
 }
 
 export function Button({ text, type, href, onClick }: ButtonProps) {
-
     return (
         href ? (
             <Link
