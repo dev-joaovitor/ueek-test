@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
+import CreateTestimonial from "../../create";
 
 export default function EditTestimonial() {
     const router = useRouter();
 
     return (
-        <h1>Depoimento {router.query.id}</h1>
+        <CreateTestimonial id={router?.query?.id?.[0] ?? router.query?.id} />
     );
 }

@@ -112,11 +112,20 @@ export default function CreateTestimonial({ id }: TestimonialProps) {
                             />
                         </Label>
 
-                        <Button
-                            submit
-                            type="primary"
-                            text={id ? "Editar" : "Salvar"}
-                        />
+                        <div className="flex flex-col gap-2">
+                            <Button
+                                submit
+                                type="primary"
+                                text={id ? "Editar" : "Salvar"}
+                            />
+                            {id ? (
+                                <Button
+                                    submit
+                                    type="secondary"
+                                    text={"Remover"}
+                                />
+                            ) : null}
+                        </div>
                     </form>
                 </section>
             </main>
