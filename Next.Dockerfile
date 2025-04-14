@@ -11,4 +11,6 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN npm ci
 
+RUN rm -rf .next
+
 ENTRYPOINT ["npm", "run", "dev"]
