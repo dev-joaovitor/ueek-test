@@ -3,17 +3,18 @@ import Link from "next/link";
 interface ButtonProps {
     text: string;
     type: "primary" | "secondary";
+    submit?: boolean;
     href?: string;
-    onClick?: () => void;
+    onClick?: (...args: any) => any;
 }
 
 const classes = {
-    base: "text-center py-2 px-4 rounded-lg",
+    base: "cursor-pointer text-center py-2 px-4 rounded-lg",
     primary: "text-[#000] bg-[#A7EE43]",
     secondary: "text-[#FFF] bg-[#080F17] border-1 border-[#666]",
 }
 
-export function Button({ text, type, href, onClick }: ButtonProps) {
+export function Button({ text, submit, type, href, onClick }: ButtonProps) {
     return (
         href ? (
             <Link
@@ -25,7 +26,7 @@ export function Button({ text, type, href, onClick }: ButtonProps) {
             </Link>
         ) : (
             <button
-                type="button"
+                type={submit ? "submit" : "button"}
                 className={`${classes.base} ${classes[type]}`}
                 onClick={onClick}
             >
