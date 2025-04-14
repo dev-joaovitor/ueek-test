@@ -28,15 +28,23 @@ export default function AdminTestimonial() {
             <main className="px-[5vw]">
                 <h2 className="text-center block sm:hidden">Depoimentos</h2>
 
-                <section className="bg-[#0c1622] sm:mt-4 mb-4 rounded-md overflow-auto">
+                <section className="max-w-fit mx-auto bg-[#0c1622] sm:mt-4 mb-4 rounded-md overflow-auto">
                     <table className="border-collapse">
                         <thead className="border-b-2 border-[#555]">
                             <tr>
                                 <th className="min-w-[50px]"></th>
                                 <th>Nome</th>
-                                <th>Titulo</th>
+                                <th className="min-w-[150px]">Titulo</th>
                                 <th className="min-w-[250px]">Comentario</th>
-                                <th>Estrelas</th>
+                                {/*<th>Estrelas</th>*/}
+                                <th>
+                                    <Image
+                                        src="/icon/star-filled.svg"
+                                        alt="Star icon filled"
+                                        width={30}
+                                        height={30}
+                                    />
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
