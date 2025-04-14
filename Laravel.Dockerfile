@@ -9,7 +9,7 @@ COPY . .
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# install utils and nvm to node
+# install utils
 RUN apt-get update -y \
     && apt-get install -y git curl libpq-dev libpng-dev libonig-dev libxml2-dev zip unzip
 
