@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class TestimonialController extends Controller
 {
-    public function handleGetAll() {
+    public function handleGetAll()
+    {
         try {
             return response([
                 "status_code" => 200,
-                "testimonials" => Testimonial::all(),
+                "testimonials" => Testimonial::where("status", 1),
             ], 200);
         } catch(Exception $e) {
             return response([
@@ -23,9 +24,10 @@ class TestimonialController extends Controller
         }
     }
 
-    public function handleGetOne(string $id) {
+    public function handleGetOne(string $id)
+    {
         try {
-            $testimonial = Testimonial::find($id);
+            $testimonial = Testimonial::find($id)->where("status", 1);
 
             if (!$testimonial)
                 return response([
@@ -45,7 +47,8 @@ class TestimonialController extends Controller
         }
     }
 
-    public function handlePost(Request $request) {
+    public function handlePost(Request $request)
+    {
         try {
             try {
                 $request->validate([
@@ -105,7 +108,8 @@ class TestimonialController extends Controller
         }
     }
 
-    public function handlePatch(Request $request, string $id) {
+    public function handlePatch(Request $request, string $id)
+    {
         try {
             try {
                 $request->validate([
@@ -129,7 +133,7 @@ class TestimonialController extends Controller
             if (!$testimonial)
                 return response([
                     "status_code" => 404,
-                    "action" => "Depoimento não encontrado, recarregue a página e tente novamente.",
+                    "action" => "Depoimento não encontrado, tente outro.",
                 ], 404);
 
             $testimonial->update([
@@ -170,6 +174,32 @@ class TestimonialController extends Controller
                 "status_code" => 201,
                 "action" => "Depoimento salvo com sucesso!",
             ], 201);
+        } catch(Exception $e) {
+            return response([
+                "status_code" => 500,
+                "action" => "Serviços indisponíveis, entre em contato.",
+            ], 500);
+        }
+    }
+
+    public function handleDelete(string $id) {
+        try {
+            $testimonial = Testimonial::find($id);
+
+            if (!$testimonial)
+                return response([
+                    "status_code" => 404,
+                    "action" => "Depoimento não encontrado, tente outro.",
+                ], 404);
+
+            $testimonial->status = 0;
+            $testimonial->save();
+
+            return response([
+                "status_code" => 200,
+                "action" => "Depoimento removido com sucesso.",
+            ], 200);
+
         } catch(Exception $e) {
             return response([
                 "status_code" => 500,

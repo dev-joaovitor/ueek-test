@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("comment", length: 255);
             $table->string("image")->nullable();
             $table->decimal("stars", total: 2, places: 1);
+            $table->enum("status", [0,1])->default(1);
             $table->dateTime("created_at")->useCurrent();
             $table->dateTime("updated_at")->nullable()->useCurrentOnUpdate();
         });
