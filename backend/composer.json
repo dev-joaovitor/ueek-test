@@ -51,7 +51,8 @@
             "@php artisan migrate --graceful --ansi"
         ],
         "dev": [
-            "php artisan serve --host 0.0.0.0 --port 8000"
+            "Composer\\Config::disableProcessTimeout",
+            "php artisan migrate && php artisan serve --host 0.0.0.0 --port 8000"
         ],
         "dev:full": [
             "Composer\\Config::disableProcessTimeout",

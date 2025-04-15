@@ -3,9 +3,9 @@ FROM php:8.3.19-fpm
 ARG UID
 ARG GID
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/backend
 
-COPY . .
+COPY backend .
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -24,13 +24,15 @@ ENV PATH="~/.composer/vendor/bin:$PATH"
 
 RUN docker-php-ext-install pdo pdo_pgsql mbstring gd
 
-RUN addgroup --gid ${GID} --system laravel
-RUN adduser --home /home/laravel --gid ${GID} --system --shell /bin/bash --uid ${UID} laravel
+RUN rm -rf vendor node_modules
 
-USER laravel
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 
-RUN touch ~/.bashrc \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash \
+RUN composer install \
     && source ~/.bashrc \
-    && nvm install
+    && nvm install \
+    && npm install
 
+RUN php artisan key:generate --ansi
+
+ENTRYPOINT [ "composer", "run", "dev" ]
