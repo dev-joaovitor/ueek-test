@@ -14,11 +14,8 @@ export default function CreateTestimonial({ id }: TestimonialProps) {
         event.preventDefault();
 
         try {
-            const request = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonial/${id ?? ""}`, {
+            const request = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/testimonial/${id ?? ""}`, {
                 method: id ? "PATCH" : "POST",
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
                 body: new FormData(event.currentTarget),
             });
 
