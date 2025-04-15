@@ -54,7 +54,8 @@ export default function AdminTestimonial() {
                                         <Image
                                             className="h-[40px] w-[40px] rounded-full"
                                             loader={() => `https://randomuser.me/api/portraits/${(idx % 2) ? "men" : "women"}/${idx}.jpg`}
-                                            src={`https://randomuser.me/api/portraits/${(idx % 2) ? "men" : "women"}/${idx}.jpg`}
+                                            src={idx !== 3 ? `https://randomuser.me/api/portraits/${(idx % 2) ? "men" : "women"}/${idx}.jpg` : null}
+                                            onError={(e) => e.target.src = "/icon/user.svg"}
                                             height={40}
                                             width={40}
                                             alt="Person image"
