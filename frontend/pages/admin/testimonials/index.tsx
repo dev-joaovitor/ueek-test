@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import "./styles/styles.css";
 import { Button } from "@/components/Button";
 
 export default function AdminTestimonial() {
