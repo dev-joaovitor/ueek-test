@@ -8,7 +8,7 @@ interface TestimonialProps {
 }
 
 export default function CreateTestimonial({ id }: TestimonialProps) {
-    const [starAmount, setStarAmount] = useState(1);
+    const [stars, setStars] = useState(1);
 
     async function createPost(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -79,7 +79,7 @@ export default function CreateTestimonial({ id }: TestimonialProps) {
 
                         <Label>
                             <span className="flex justify-center">
-                                {Array(Math.floor(starAmount)).fill(1).map((_, idx) => (
+                                {Array(Math.floor(stars)).fill(1).map((_, idx) => (
                                     <Image
                                         key={"star-"+idx}
                                         src="/icon/star-filled.svg"
@@ -88,7 +88,7 @@ export default function CreateTestimonial({ id }: TestimonialProps) {
                                         height={20}
                                     />
                                 ))}
-                                {starAmount > Math.floor(starAmount) ? (
+                                {stars > Math.floor(stars) ? (
                                     <Image
                                         src="/icon/star-half-filled.svg"
                                         alt={"Star icon half filled"}
@@ -103,9 +103,9 @@ export default function CreateTestimonial({ id }: TestimonialProps) {
                                 min={1}
                                 step={0.5}
                                 max={5}
-                                name="star-amount"
+                                name="stars"
                                 type="range"
-                                onChange={(event) => setStarAmount(+(event.target.value))}
+                                onChange={(event) => setStars(+(event.target.value))}
                             />
                         </Label>
 
