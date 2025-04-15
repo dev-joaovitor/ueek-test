@@ -33,6 +33,7 @@ RUN composer install \
     && nvm install \
     && npm install
 
-RUN php artisan key:generate --ansi
+RUN php artisan key:generate --ansi \
+    && php artisan storage:link
 
 ENTRYPOINT [ "composer", "run", "dev" ]
