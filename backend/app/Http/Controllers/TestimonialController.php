@@ -14,7 +14,9 @@ class TestimonialController extends Controller
         try {
             return response([
                 "status_code" => 200,
-                "testimonials" => Testimonial::where("status", 1),
+                "testimonials" => Testimonial::where("status", 1)
+                                                            ->get()
+                                                            ->toArray(),
             ], 200);
         } catch(Exception $e) {
             return response([
@@ -27,7 +29,9 @@ class TestimonialController extends Controller
     public function handleGetOne(string $id)
     {
         try {
-            $testimonial = Testimonial::find($id)->where("status", 1);
+            $testimonial = Testimonial::find($id)
+                                            ->where("status", 1)
+                                            ->get();
 
             if (!$testimonial)
                 return response([

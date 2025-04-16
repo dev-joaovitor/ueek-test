@@ -1,8 +1,39 @@
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/Button";
 
+interface Testimonial {
+    id: string;
+    name: string;
+    headline: string;
+    comment: string;
+    image: string;
+    stars: number;
+    status: "0" | "1";
+}
+
 export default function AdminTestimonial() {
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+
+    async function fetchTestimonials() {
+        const request = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/testimonial`);
+
+        const response = await request.json();
+        console.log(response.testimonials);
+
+        return response.testimonials;
+    }
+
+    useEffect(() => {
+        fetchTestimonials().then(setTestimonials);
+    }, []);
+
+    function personImageLoader({src, width, quality}) {
+        return src.includes("/icon") ? src 
+            : `${process.env.NEXT_PUBLIC_API_URL}/storage/testimonials/${src}?w=${width}&q=${quality || 75}`;
+    }
+
     return (
         <>
             <header className="flex flex-wrap justify-center gap-3 sm:justify-between items-center py-3 px-[48px] border-b-2 border-[#444]">
@@ -48,27 +79,26 @@ export default function AdminTestimonial() {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array(10).fill(1).map((_, idx) => (
+                            {testimonials.map(({id, name, headline, comment, stars, image}, idx) => (
                                 <tr key={"testimonial-"+idx}>
                                     <td>
                                         <Image
-                                            className="h-[40px] w-[40px] rounded-full"
-                                            loader={() => `https://randomuser.me/api/portraits/${(idx % 2) ? "men" : "women"}/${idx}.jpg`}
-                                            src={idx !== 3 ? `https://randomuser.me/api/portraits/${(idx % 2) ? "men" : "women"}/${idx}.jpg` : null}
+                                            className="aspect-square object-cover h-[40px] w-[40px] rounded-full"
+                                            loader={personImageLoader}
+                                            src={image ?? "/icon/user.svg"}
                                             onError={(e) => e.target.src = "/icon/user.svg"}
                                             height={40}
                                             width={40}
                                             alt="Person image"
                                         />
                                     </td>
-                                    <td>Marcos Antunes</td>
-                                    <td>Awesome!!!</td>
-                                    <td>{(idx % 2) ? "This service has transformed the way I manage my projects." : "This service has transformed the way I manage my projects. blabalbla kalkbalav akldkald akadlkasl"}</td>
+                                    <td>{name}</td>
+                                    <td>{headline}</td>
+                                    <td>{comment}</td>
                                     <td>
                                         <div className="flex justify-center">
-                                            {[3,4,1.5,5,3,5,2,4.5,1,3.5][idx]}
+                                            {stars}
                                             <Image
-                                                key={"star-"+idx}
                                                 src="/icon/star-filled.svg"
                                                 alt="Star icon filled"
                                                 width={16}
@@ -78,7 +108,7 @@ export default function AdminTestimonial() {
                                     </td>
                                     <td>
                                         <Button
-                                            href={`/admin/testimonial/edit/${idx+1}`}
+                                            href={`/admin/testimonial/edit/${id}`}
                                             text="Editar"
                                             type="primary"
                                         />
