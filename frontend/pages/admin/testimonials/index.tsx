@@ -56,7 +56,6 @@ export default function AdminTestimonial() {
                                 <th>Nome</th>
                                 <th className="min-w-[150px]">Titulo</th>
                                 <th className="min-w-[250px]">Comentario</th>
-                                {/*<th>Estrelas</th>*/}
                                 <th>
                                     <Image
                                         src="/icon/star-filled.svg"
