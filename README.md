@@ -12,9 +12,10 @@
 2. Clone este repositório na sua máquina pelo comando: `git clone git@github.com:dev-joaovitor/ueek-test.git`
 3. Acesse a pasta onde o projeto clonado se encontra: `cd caminho/para/projeto/ueek-test`
 4. Rode o comando: `docker compose up -d` e aguarde o Docker fazer seu trabalho
-5. Assim que os containers estiverem rodando, abra seu navegador favorito e acesse:
+- Na primeira vez rodando o comando, pode ser que o container do backend nao inicie por conta do container do database, apenas rode o comando novamente para que o backend possa rodar.
+5. Assim que os **TODOS** os containers estiverem rodando, abra seu navegador favorito e acesse:
 
-*Dependendo da velocidade da sua máquina e/ou a quantidade de recursos que alocou ao Docker pode demorar alguns segundos até que os endpoints estejam acessíveis.
+#### Dependendo da velocidade da sua máquina e/ou a quantidade de recursos que alocou ao Docker pode demorar alguns segundos até que os endpoints estejam acessíveis.
 
 - Landing page: http://localhost:3000
 - Depoimentos: http://localhost:3000/admin/testimonials
