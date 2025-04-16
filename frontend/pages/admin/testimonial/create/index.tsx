@@ -126,7 +126,9 @@ export default function Testimonial({ id }: TestimonialProps) {
                     />
                 </Link>
 
-                <h3 className="hidden sm:block">{id ? (testimonial?.headline ?? "...Carregando") : "Novo Depoimento"}</h3>
+                <h3 className="hidden sm:block">
+                    {id ? (testimonial?.headline ?? "...Carregando") : "Novo Depoimento"}
+                </h3>
 
                 <Button
                     text="Voltar"
@@ -136,7 +138,9 @@ export default function Testimonial({ id }: TestimonialProps) {
             </header>
 
             <main className="px-[5vw]">
-                <h2 className="text-center block sm:hidden">Novo depoimento</h2>
+                <h2 className="text-center block sm:hidden">
+                    {id ? (testimonial?.headline ?? "...Carregando") : "Novo Depoimento"}
+                </h2>
 
                 <section className="bg-[#0c1622] p-5 sm:mt-4 mb-4 rounded-md overflow-auto">
                     <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
