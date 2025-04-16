@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/Button";
@@ -26,6 +27,9 @@ export default function AdminTestimonial() {
 
     return (
         <>
+            <Head>
+                <title>Movefit | Admin | Depoimentos</title>
+            </Head>
             <header className="flex flex-wrap justify-center gap-3 sm:justify-between items-center py-3 px-[48px] border-b-2 border-[#444]">
                 <Link href="/">
                     <Image

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
@@ -26,6 +27,10 @@ export default function Home() {
 
     return (
         <>
+            <Head>
+                <title>Movefit</title>
+            </Head>
+
             <header
                 className="flex flex-wrap justify-between items-center py-3 px-[48px] border-b-2 border-[#444]">
 

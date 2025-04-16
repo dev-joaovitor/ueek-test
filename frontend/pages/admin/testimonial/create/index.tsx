@@ -3,6 +3,7 @@ import {
     useEffect,
     FormEvent,
 } from "react";
+import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -116,6 +117,9 @@ export default function Testimonial({ id }: TestimonialProps) {
 
     return (
         <>
+            <Head>
+                <title>Movefit | Admin | {id ? "Editar Depoimento" : "Novo Depoimento"}</title>
+            </Head>
             <header className="flex flex-wrap justify-center gap-3 sm:justify-between items-center py-3 px-[48px] border-b-2 border-[#444]">
                 <Link href="/">
                     <Image
