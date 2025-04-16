@@ -23,6 +23,7 @@ export function TestimonialCard({ person, stars, headline, comment }: Testimonia
                     className="aspect-square object-cover h-[48px] w-[48px] rounded-full"
                     loader={personImageLoader}
                     src={person.pictureSource}
+                    onError={(e) => e.target.src = "/icon/user.svg"}
                     alt="Person picture"
                     width={48}
                     height={48}

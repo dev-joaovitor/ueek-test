@@ -27,7 +27,7 @@ class TestimonialSeeder extends Seeder
                 "headline" => "Fun is the key to programming",
                 "comment" => "Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program.",
                 "stars" => 5.0,
-                "image" => "https://www.zdnet.com/a/img/resize/97cc816684387c2f28dfe2f5239a2a22d8a0bd01/2021/10/04/18d804dd-6e7c-4d6a-964d-b3475151438e/linus-torvalds.jpg?auto=webp&fit=crop&height=1200&width=1200",
+                "image" => "https://antlia.com.br/wp-content/uploads/2023/08/Linus.jpg",
             ],
             [
                 "name" => "Nikola Tesla",
@@ -46,20 +46,24 @@ class TestimonialSeeder extends Seeder
         ];
 
         foreach ($testimonials as &$testimonial) {
-            $image_path = $testimonial["image"];
-            $testimonial["image"] = null;
+            try {
+                $image_path = $testimonial["image"];
+                $testimonial["image"] = null;
 
-            $testimonial = Testimonial::create($testimonial);
+                $testimonial = Testimonial::create($testimonial);
 
-            if (!$testimonial) continue;
+                if (!$testimonial) continue;
 
-            $contents = file_get_contents($image_path);
-            $image_name = $testimonial->id . ".jpg";
+                $contents = file_get_contents($image_path);
+                $image_name = $testimonial->id . ".jpg";
 
-            Storage::disk("public")->put("/testimonials/$image_name", $contents);
+                Storage::disk("public")->put("/testimonials/$image_name", $contents);
 
-            $testimonial->image = $image_name;
-            $testimonial->save();
+                $testimonial->image = $image_name;
+                $testimonial->save();
+            } catch(e) {
+                continue;
+            }
         }
     }
 }

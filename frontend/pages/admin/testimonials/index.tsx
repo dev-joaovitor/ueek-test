@@ -110,7 +110,7 @@ export default function AdminTestimonial() {
                             ))}
                             {!testimonials?.length ? (
                                <tr>
-                                    <td colSpan="5">
+                                    <td colSpan="6">
                                         <h3>Não há depoimentos no momento</h3>
                                     </td>
                                 </tr>
