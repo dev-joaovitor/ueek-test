@@ -1,24 +1,22 @@
 import {
     useState,
     useEffect,
-    DetailedHTMLProps,
     FormEvent,
-    InputHTMLAttributes,
-    LabelHTMLAttributes,
-    PropsWithChildren,
-    TextareaHTMLAttributes,
 } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Button } from "@/components/Button";
 import { Testimonial } from "@/types/globals";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
+import { TextArea } from "@/components/TextArea";
+import { Label } from "@/components/Label";
 
 interface TestimonialProps {
     id?: string;
 }
 
-export default function CreateTestimonial({ id }: TestimonialProps) {
+export default function Testimonial({ id }: TestimonialProps) {
     const router = useRouter();
     const [testimonial, setTestimonial] = useState<Testimonial>(null);
     const [stars, setStars] = useState<number>(1);
@@ -193,92 +191,3 @@ export default function CreateTestimonial({ id }: TestimonialProps) {
     );
 }
 
-interface LabelProps extends DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement> {
-    horizontal?: boolean;
-    center?: boolean;
-}
-
-function Label({horizontal, center, children}: PropsWithChildren<LabelProps>) {
-    return (
-        <label className={`flex ${horizontal ? "gap-3" : "flex-col"} ${center ? "justify-center items-center" : ""} w-3/4 md:w-1/3`}>
-            {children}
-        </label>
-    );
-}
-
-interface TextAreaProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>  {
-    labelText: string;
-}
-
-function TextArea({labelText, ...textAreaProps}: TextAreaProps) {
-    return (
-        <Label>
-            <span className="mb-2">{labelText}</span>
-            <textarea
-                className="bg-(--background) w-full min-h-[50px] max-h-[250px] p-3 rounded-md"
-                {...textAreaProps}
-            ></textarea>
-        </Label>
-    );
-}
-
-interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-    labelText: string;
-    imageSource?: string;
-}
-
-function Input({labelText, imageSource, ...inputProps}: InputProps) {
-    const [imageSrc, setImageSrc] = useState<string|null>(imageSource ?? null);
-
-    useEffect(() => {
-        if (!imageSource) return;
-
-        setImageSrc(imageSource);
-    }, [imageSource]);
-
-    function personImageLoader({src, width, quality}) {
-        return src.includes("/icon") ? src 
-            : `${process.env.NEXT_PUBLIC_API_URL}/storage/testimonials/${src}?w=${width}&q=${quality || 75}`;
-    }
-
-    switch(inputProps.type) {
-        case "file":
-            return (
-                <Label center>
-                    <span className="mb-2">{labelText}</span>
-
-                    <Image
-                        loader={personImageLoader}
-                        src={imageSrc ?? "/icon/user.svg"}
-                        className="bg-(--background) aspect-square object-cover cursor-pointer rounded-full w-1/2"
-                        objectFit="cover"
-                        height={50}
-                        width={50}
-                        alt={imageSrc ? "Person photo" : "Photo placeholder"}
-                    />
-                    <input
-                        onChange={(ev) => {
-                            const [file] = ev?.target?.files ?? [];
-
-                            if (file) {
-                                setImageSrc(URL.createObjectURL(file));
-                            }
-                        }}
-                        hidden
-                        {...inputProps}
-                    />
-                </Label>
-            );
-        case "text":
-        default:
-            return (
-                <Label>
-                    <span className="mb-2">{labelText}</span>
-                    <input
-                        className="bg-(--background) w-full p-3 rounded-md"
-                        {...inputProps}
-                    />
-                </Label>
-            );
-    }
-}

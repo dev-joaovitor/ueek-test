@@ -64,7 +64,7 @@ class TestimonialController extends Controller
                     "headline" => "required|max:75",
                     "comment" => "required|max:255",
                     "stars" => "required",
-                    "photo" => "mimetypes:image/*",
+                    "photo" => "mimetypes:image/*|max:5120",
                 ]);
             } catch (Exception $e) {
                 return response([
@@ -126,7 +126,7 @@ class TestimonialController extends Controller
                     "headline" => "required|max:75",
                     "comment" => "required|max:255",
                     "stars" => "required",
-                    "photo" => "mimetypes:image/*",
+                    "photo" => "mimetypes:image/*|max:5120",
                 ]);
             } catch (Exception $e) {
                 return response([
