@@ -29,15 +29,19 @@ class TestimonialController extends Controller
     public function handleGetOne(string $id)
     {
         try {
-            $testimonial = Testimonial::find($id)
-                                            ->where("status", 1)
-                                            ->get();
+            $testimonial = Testimonial::find($id);
 
             if (!$testimonial)
                 return response([
                     "status_code" => 404,
                     "action" => "Depoimento não encontrado, tente outro.",
                 ], 404);
+
+            if ($testimonial->status === "0")
+                return response([
+                    "status_code" => 403,
+                    "action" => "Depoimento indisponível.",
+                ], 403);
 
             return response([
                 "status_code" => 200,
@@ -102,6 +106,7 @@ class TestimonialController extends Controller
             return response([
                 "status_code" => 201,
                 "action" => "Depoimento salvo com sucesso!",
+                "testimonial" => $testimonial->toArray(),
             ], 201);
 
         } catch(Exception $e) {
@@ -145,7 +150,6 @@ class TestimonialController extends Controller
                 "headline" => $data["headline"],
                 "comment" => $data["comment"],
                 "stars" => $data["stars"],
-                "image" => null,
             ]);
 
             if ($request->hasFile("photo"))
@@ -175,9 +179,10 @@ class TestimonialController extends Controller
             }
 
             return response([
-                "status_code" => 201,
-                "action" => "Depoimento salvo com sucesso!",
-            ], 201);
+                "status_code" => 200,
+                "action" => "Depoimento atualizado com sucesso!",
+                "testimonial" => $testimonial->toArray(),
+            ], 200);
         } catch(Exception $e) {
             return response([
                 "status_code" => 500,

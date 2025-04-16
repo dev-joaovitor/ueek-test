@@ -2,16 +2,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/Button";
-
-interface Testimonial {
-    id: string;
-    name: string;
-    headline: string;
-    comment: string;
-    image: string;
-    stars: number;
-    status: "0" | "1";
-}
+import { Testimonial } from "@/types/globals";
 
 export default function AdminTestimonial() {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -20,9 +11,8 @@ export default function AdminTestimonial() {
         const request = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/testimonial`);
 
         const response = await request.json();
-        console.log(response.testimonials);
 
-        return response.testimonials;
+        return response?.testimonials ?? [];
     }
 
     useEffect(() => {

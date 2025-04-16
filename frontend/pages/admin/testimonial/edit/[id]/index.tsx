@@ -5,6 +5,6 @@ export default function EditTestimonial() {
     const router = useRouter();
 
     return (
-        <CreateTestimonial id={router?.query?.id?.[0] ?? router.query?.id} />
+        <CreateTestimonial id={router.query?.id} />
     );
 }
