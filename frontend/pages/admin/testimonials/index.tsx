@@ -104,6 +104,13 @@ export default function AdminTestimonial() {
                                     </td>
                                 </tr>
                             ))}
+                            {!testimonials?.length ? (
+                               <tr>
+                                    <td colSpan="5">
+                                        <h3>Não há depoimentos no momento</h3>
+                                    </td>
+                                </tr>
+                            ) : null}
                         </tbody>
                     </table>
                 </section>

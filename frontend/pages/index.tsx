@@ -168,6 +168,9 @@ export default function Home() {
                                     comment={comment}
                                 />
                             ))}
+                            {!testimonials?.length ? (
+                                <h3>Não há depoimentos no momento</h3>
+                            ) : null}
                         </div>
 
                         {/* left shadow */}

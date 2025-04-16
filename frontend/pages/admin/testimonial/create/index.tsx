@@ -6,20 +6,31 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+
 import { Testimonial } from "@/types/globals";
+
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { TextArea } from "@/components/TextArea";
 import { Label } from "@/components/Label";
+import { AlertModal } from "@/components/AlertModal";
 
 interface TestimonialProps {
     id?: string;
 }
 
+const BASE_TESTIMONIAL_FETCH_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/testimonial`;
+
 export default function Testimonial({ id }: TestimonialProps) {
     const router = useRouter();
+
     const [testimonial, setTestimonial] = useState<Testimonial>(null);
     const [stars, setStars] = useState<number>(1);
+
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [alertTitle, setAlertTitle] = useState<string>("");
+    const [alertMessage, setAlertMessage] = useState<string>("");
+    const [alertCallback, setAlertCallback] = useState<Function>(null);
 
     useEffect(() => {
         if (!id) return;
@@ -32,32 +43,36 @@ export default function Testimonial({ id }: TestimonialProps) {
 
     async function fetchTestimonial() {
         try {
-            const request = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/testimonial/${id}`);
+            const request = await fetch(`${BASE_TESTIMONIAL_FETCH_URL}/${id}`);
             const response = await request.json();
 
             if (response?.status_code !== 200)
-                return router.push("/admin/testimonials");
+                return showAlert("Atenção", response?.action, () => {
+                    router.push("/admin/testimonials");
+                });
 
             return response?.testimonial ?? null;
         } catch(e) {
-            console.error(e);
+            showAlert("Atenção", "Ocorreu um erro inesperado, entre em contato para mais informações");
         }
     }
 
     async function handleRemove() {
         try {
-            const request = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/testimonial/${id}`, {
+            const request = await fetch(`${BASE_TESTIMONIAL_FETCH_URL}/${id}`, {
                 method: "DELETE",
             });
 
             const response = await request?.json();
 
             if (response?.status_code === 200)
-                return router.push("/admin/testimonials");
+                return showAlert("Sucesso", response?.action, () => {
+                    router.push("/admin/testimonials");
+                });
 
-            console.log(response);
+            showAlert("Atenção", response?.action);
         } catch(e) {
-            console.error(e);
+            showAlert("Atenção", "Ocorreu um erro inesperado, entre em contato para mais informações");
         }
     }
 
@@ -66,7 +81,7 @@ export default function Testimonial({ id }: TestimonialProps) {
 
         try {
             const request = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/testimonial/${id ? `${id}?_method=PATCH` : ""}`,
+                `${BASE_TESTIMONIAL_FETCH_URL}/${id ? `${id}?_method=PATCH` : ""}`,
                 {
                     method: "POST",
                     body: new FormData(event.currentTarget),
@@ -76,14 +91,27 @@ export default function Testimonial({ id }: TestimonialProps) {
 
             switch(response?.status_code) {
                 case 200:
-                    return setTestimonial(response?.testimonial);
+                    return showAlert("Sucesso", response?.action, () => {
+                        setTestimonial(response?.testimonial);
+                    });
                 case 201:
-                    return router.push(`/admin/testimonial/edit/${response?.testimonial?.id ?? ""}`);
+                    return showAlert("Sucesso", response?.action, () => {
+                        router.push(`/admin/testimonial/edit/${response?.testimonial?.id ?? ""}`);
+                    });
+                default:
+                    showAlert("Atenção", response?.action);
             }
 
         } catch(e) {
-            console.error(e);
+            showAlert("Atenção", "Ocorreu um erro inesperado, entre em contato para mais informações");
         }
+    }
+
+    async function showAlert(title: string, message: string, callback: Function|undefined = undefined) {
+        setAlertTitle(title);
+        setAlertMessage(message);
+        setAlertCallback(() => callback);
+        setIsModalOpen(true);
     }
 
     return (
@@ -187,6 +215,16 @@ export default function Testimonial({ id }: TestimonialProps) {
                     </form>
                 </section>
             </main>
+
+            <AlertModal
+                title={alertTitle}
+                message={alertMessage}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    alertCallback?.();
+                }}
+                isOpen={isModalOpen}
+            />
         </>
     );
 }
